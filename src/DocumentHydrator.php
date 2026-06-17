@@ -8,6 +8,7 @@ use Rushing\BlockSchema\Blocks\Block;
 use Rushing\BlockSchema\Contracts\Document;
 use Rushing\BlockSchema\Contracts\Node;
 use Rushing\BlockSchema\Contracts\Schema;
+use Rushing\BlockSchema\Nodes\GenericNode;
 use Rushing\BlockSchema\Schema\ProseMirrorDocument;
 
 /**
@@ -37,6 +38,12 @@ final class DocumentHydrator
      */
     private function hydrateNode(array $node): Node
     {
+        // Types the Schema doesn't map to a typed Block are standard ProseMirror
+        // prose (paragraph, text, marks, …) — passed through faithfully.
+        if (! $this->schema->has($node['type'])) {
+            return GenericNode::fromArray($node, fn (array $child): Node => $this->hydrateNode($child));
+        }
+
         /** @var class-string<Block> $class */
         $class = $this->schema->resolve($node['type']);
         $attrs = $node['attrs'] ?? [];

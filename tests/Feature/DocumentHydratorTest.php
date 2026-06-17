@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rushing\BlockSchema\Contracts\Document;
 use Rushing\BlockSchema\DocumentHydrator;
+use Rushing\BlockSchema\Nodes\GenericNode;
 use Rushing\BlockSchema\Schema\NodeSchema;
 
 beforeEach(function () {
@@ -67,9 +68,52 @@ it('round-trips a Block through serialize and hydrate preserving id', function (
         ->and($rehydrated->heading)->toBe('Locations');
 });
 
-it('throws when resolving an unregistered node type', function () {
-    $this->hydrator->hydrate([
+it('passes unregistered prose nodes through as GenericNode', function () {
+    $doc = [
         'type' => 'doc',
-        'content' => [['type' => 'unknown', 'attrs' => []]],
-    ]);
+        'content' => [
+            [
+                'type' => 'paragraph',
+                'content' => [
+                    ['type' => 'text', 'text' => 'Filmed in '],
+                    ['type' => 'text', 'text' => 'Scotland', 'marks' => [['type' => 'strong']]],
+                ],
+            ],
+        ],
+    ];
+
+    $document = $this->hydrator->hydrate($doc);
+    $paragraph = $document->content()[0];
+
+    expect($paragraph)->toBeInstanceOf(GenericNode::class)
+        ->and($paragraph->type())->toBe('paragraph')
+        ->and($paragraph->content()[1]->text())->toBe('Scotland');
+
+    // Round-trips the raw prose structure losslessly.
+    expect($document->toArray())->toBe($doc);
+});
+
+it('hydrates a typed Block whose content is prose GenericNodes', function () {
+    $doc = [
+        'type' => 'doc',
+        'content' => [
+            [
+                'type' => 'section',
+                'attrs' => ['id' => 's1', 'heading' => 'Locations'],
+                'content' => [
+                    ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => 'Body.']]],
+                ],
+            ],
+        ],
+    ];
+
+    $section = $this->hydrator->hydrate($doc)->content()[0];
+
+    expect($section)->toBeInstanceOf(SectionBlockFixture::class)
+        ->and($section->content()[0])->toBeInstanceOf(GenericNode::class)
+        ->and($section->content()[0]->type())->toBe('paragraph');
+});
+
+it('still throws from Schema::resolve for an unregistered type', function () {
+    $this->schema->resolve('unknown');
 })->throws(InvalidArgumentException::class);
