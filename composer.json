@@ -1,12 +1,11 @@
 {
     "name": "rushing/laravel-block-schema",
-    "description": "Spatie Data block types for ProseMirror document generation in Laravel. Plugs into rushing/prosemirror-php.",
+    "description": "A faithful ProseMirror document model for Laravel (Node/Document/Schema) plus a Spatie Data Block base class. Define your node types as Block subclasses; round-trip ProseMirror JSON.",
     "type": "library",
     "license": "MIT",
     "require": {
         "php": "^8.3",
         "illuminate/contracts": "^12.0",
-        "rushing/prosemirror-php": "dev-main",
         "spatie/laravel-data": "^4.9",
         "spatie/laravel-package-tools": "^1.16"
     },
@@ -32,12 +31,6 @@
             ]
         }
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../prosemirror-php"
-        }
-    ],
     "minimum-stability": "dev",
     "prefer-stable": true
 }

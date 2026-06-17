@@ -3,3 +3,4 @@
 declare(strict_types=1);
 
 uses(\Orchestra\Testbench\TestCase::class)->in('Feature');
+uses()->in('Unit');

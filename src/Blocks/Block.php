@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Rushing\BlockSchema\Blocks;
 
-use Rushing\ProseMirror\Attributes\BlockType;
-use Rushing\ProseMirror\Contracts\BlockNode;
+use Rushing\BlockSchema\Attributes\NodeType;
+use Rushing\BlockSchema\Contracts\Node;
 use Spatie\LaravelData\Data;
 
-abstract class SpatieBlock extends Data implements BlockNode
+abstract class Block extends Data implements Node
 {
     public function type(): string
     {
-        $attrs = (new \ReflectionClass(static::class))->getAttributes(BlockType::class);
+        $attrs = (new \ReflectionClass(static::class))->getAttributes(NodeType::class);
 
         if (empty($attrs)) {
-            throw new \LogicException(static::class.' must have a #[BlockType] attribute.');
+            throw new \LogicException(static::class.' must have a #[NodeType] attribute.');
         }
 
         return $attrs[0]->newInstance()->name;
