@@ -6,6 +6,9 @@ namespace Rushing\BlockSchema;
 
 use Rushing\BlockSchema\Contracts\Schema;
 use Rushing\BlockSchema\Schema\NodeSchema;
+use Rushing\BlockSchema\Transforms\DedupeImagesTransform;
+use Rushing\BlockSchema\Transforms\OneLeadVisualTransform;
+use Rushing\BlockSchema\Transforms\StripConclusionMediaTransform;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -25,5 +28,15 @@ class ServiceProvider extends PackageServiceProvider
             DocumentHydrator::class,
             fn ($app) => new DocumentHydrator($app->make(Schema::class)),
         );
+
+        $this->app->singleton(TransformPipeline::class);
+    }
+
+    public function bootingPackage(): void
+    {
+        $pipeline = $this->app->make(TransformPipeline::class);
+        $pipeline->register(OneLeadVisualTransform::class);
+        $pipeline->register(DedupeImagesTransform::class);
+        $pipeline->register(StripConclusionMediaTransform::class);
     }
 }
