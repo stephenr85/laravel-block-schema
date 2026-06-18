@@ -20,7 +20,7 @@ use Rushing\LaravelDataSchemas\Generators\JsonSchemaGenerator;
  * Register it ahead of the default generator in `config/data-schemas.php`; its
  * `canGenerate()` only claims Block subclasses, leaving plain Data to the default.
  *
- * @see \Rushing\LaravelDataSchemas\Generators\JsonSchemaGenerator
+ * @see JsonSchemaGenerator
  */
 class BlockJsonSchemaGenerator extends JsonSchemaGenerator
 {
