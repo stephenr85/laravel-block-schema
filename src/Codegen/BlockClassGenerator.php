@@ -15,8 +15,8 @@ namespace Rushing\BlockSchema\Codegen;
 class BlockClassGenerator
 {
     /**
-     * @param  string  $className   Simple class name (no namespace) for the generated class.
-     * @param  string  $nodeType    The `type` discriminator string (e.g. "custom_card").
+     * @param  string  $className  Simple class name (no namespace) for the generated class.
+     * @param  string  $nodeType  The `type` discriminator string (e.g. "custom_card").
      * @param  array<string, mixed>  $schema  JSON Schema describing the node's properties.
      * @param  string|null  $namespace  Optional namespace for the generated class (default: global).
      */
@@ -116,7 +116,7 @@ PHP;
             $args .= ", '{$escaped}'";
         }
 
-        return $args.', group: \'embed\', content: \'\'';
+        return $args.', group: \'embed\'';
     }
 
     private function buildNodeAttrArgs(?string $description, bool $required): string

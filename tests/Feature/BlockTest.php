@@ -6,7 +6,7 @@ use Rushing\BlockSchema\Attributes\NodeAttr;
 use Rushing\BlockSchema\Attributes\NodeType;
 use Rushing\BlockSchema\Blocks\Block;
 
-#[NodeType('section', 'A body section', content: 'block+')]
+#[NodeType('section', 'A body section')]
 class SectionBlockFixture extends Block
 {
     public function __construct(

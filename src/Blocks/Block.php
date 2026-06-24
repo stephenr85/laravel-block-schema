@@ -7,6 +7,7 @@ namespace Rushing\BlockSchema\Blocks;
 use Illuminate\Support\Str;
 use Rushing\BlockSchema\Attributes\NodeType;
 use Rushing\BlockSchema\Contracts\Node;
+use Rushing\BlockSchema\Exceptions\BlockContainmentException;
 use Spatie\LaravelData\Data;
 
 /**
@@ -52,10 +53,54 @@ abstract class Block extends Data implements Node
     }
 
     /**
+     * The category this block belongs to (an opaque `$id` string). Null means the
+     * block declares no category — it can only be placed in an unconstrained
+     * container. The category vocabulary is the host's; the block layer treats ids
+     * as opaque, exactly like the kernel's admitted-category SlotSchema.
+     */
+    public function category(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * The child categories this block admits, or null when unconstrained (any
+     * child, including raw prose). A container admits *by category*; a child whose
+     * {@see category()} is not in this set is rejected on write — the block layer's
+     * realization of the category-admission seam (replacing the retired, inert
+     * `#[NodeType]` content expression).
+     *
+     * @return list<string>|null
+     */
+    public function admitsChildCategories(): ?array
+    {
+        return null;
+    }
+
+    /**
      * @param  list<Node>  $children
+     *
+     * @throws BlockContainmentException when a child's category is not admitted
      */
     public function withContent(array $children): static
     {
+        $admitted = $this->admitsChildCategories();
+
+        if ($admitted !== null) {
+            foreach ($children as $child) {
+                $childCategory = $child instanceof self ? $child->category() : null;
+
+                if (! in_array($childCategory, $admitted, true)) {
+                    throw new BlockContainmentException(sprintf(
+                        '%s does not admit a child of category [%s]; admitted: [%s].',
+                        static::class,
+                        $childCategory ?? '(none)',
+                        implode(', ', $admitted),
+                    ));
+                }
+            }
+        }
+
         $this->children = $children;
 
         return $this;

@@ -14,7 +14,7 @@ use Rushing\BlockSchema\Schema\NodeSchema;
 // Hand-authored equivalent — the parity baseline
 // ---------------------------------------------------------------------------
 
-#[NodeType('codegen_card', 'A custom card embed (hand-authored parity fixture)', group: 'embed', content: '')]
+#[NodeType('codegen_card', 'A custom card embed (hand-authored parity fixture)', group: 'embed')]
 class CodegenCardFixture extends Block
 {
     public function __construct(

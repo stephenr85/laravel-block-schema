@@ -10,10 +10,10 @@ use Rushing\BlockSchema\Contracts\Document;
 use Rushing\BlockSchema\Contracts\DocumentRenderer;
 use Rushing\BlockSchema\Contracts\Schema;
 
-#[NodeType('opening', 'Opening block fixture', content: 'block+')]
+#[NodeType('opening', 'Opening block fixture')]
 class OpeningBlockFixture extends Block {}
 
-#[NodeType('section', 'Section block fixture', content: 'block+')]
+#[NodeType('section', 'Section block fixture')]
 class BuilderSectionFixture extends Block
 {
     public function __construct(
@@ -22,10 +22,10 @@ class BuilderSectionFixture extends Block
     ) {}
 }
 
-#[NodeType('faq', 'FAQ block fixture', content: 'faq_item+')]
+#[NodeType('faq', 'FAQ block fixture')]
 class FaqBlockFixture extends Block {}
 
-#[NodeType('faq_item', 'FAQ item fixture', content: 'block+')]
+#[NodeType('faq_item', 'FAQ item fixture')]
 class FaqItemFixture extends Block
 {
     public function __construct(
@@ -34,7 +34,7 @@ class FaqItemFixture extends Block
     ) {}
 }
 
-#[NodeType('conclusion', 'Conclusion block fixture', content: 'block+')]
+#[NodeType('conclusion', 'Conclusion block fixture')]
 class ConclusionBlockFixture extends Block {}
 
 beforeEach(function () {
