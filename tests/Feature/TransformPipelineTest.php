@@ -16,7 +16,8 @@ it('passes input through unchanged when no transforms are registered', function 
 });
 
 it('runs registered transforms in registration order', function () {
-    $first = new class implements DocumentTransform {
+    $first = new class implements DocumentTransform
+    {
         public function transform(array $input, array $context = []): array
         {
             $input['order'][] = 'first';
@@ -25,7 +26,8 @@ it('runs registered transforms in registration order', function () {
         }
     };
 
-    $second = new class implements DocumentTransform {
+    $second = new class implements DocumentTransform
+    {
         public function transform(array $input, array $context = []): array
         {
             $input['order'][] = 'second';

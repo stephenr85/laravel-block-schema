@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+use Rushing\BlockSchema\Tests\TestCase;
 
-uses(\Rushing\BlockSchema\Tests\TestCase::class)->in('Feature');
+uses(TestCase::class)->in('Feature');
 uses()->in('Unit');

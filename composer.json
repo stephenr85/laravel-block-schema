@@ -14,7 +14,8 @@
         "orchestra/testbench": "^10.0",
         "pestphp/pest": "^3.0",
         "pestphp/pest-plugin-laravel": "^3.0",
-        "rushing/laravel-data-schemas": "^1.0"
+        "rushing/laravel-data-schemas": "^1.0",
+        "laravel/pint": "^1.0"
     },
     "suggest": {
         "rushing/laravel-data-schemas": "Emit JSON Schema for Block subclasses (BlockJsonSchemaGenerator) for LLM structured output."
@@ -48,5 +49,8 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "scripts": {
+        "pint": "@php -d memory_limit=512M vendor/bin/pint"
+    }
 }

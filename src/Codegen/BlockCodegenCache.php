@@ -21,7 +21,7 @@ class BlockCodegenCache
      * @param  string  $fqcn  Fully-qualified class name the code defines.
      * @param  string  $nodeType  Node type slug — used to derive the cache filename.
      * @param  string  $phpCode  PHP source produced by BlockClassGenerator::generate().
-     * @return string  The FQCN, unchanged, for fluent use.
+     * @return string The FQCN, unchanged, for fluent use.
      */
     public function compile(string $fqcn, string $nodeType, string $phpCode): string
     {
